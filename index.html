@@ -1,545 +1,544 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="NewsInTech - Independent technology news, deep analysis, and original reporting on AI, gadgets, science, and the future.">
-    <meta name="keywords" content="technology news, AI, gadgets, science, cybersecurity, tech analysis, original reporting, news in tech">
-    <meta name="author" content="NewsInTech">
-    <meta property="og:title" content="NewsInTech - Technology News & Analysis">
-    <meta property="og:description" content="Independent tech journalism with original reporting and daily deep dives.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://newsintech.github.io/news/">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
-    <title>NewsInTech - Technology News & Analysis</title>
-    <link rel="canonical" href="https://newsintech.github.io/news/">
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&family=Georgia:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>N</text></svg>">
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "NewsInTech",
-      "url": "https://newsintech.github.io/news/",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://newsintech.github.io/news/?s={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NewsInTech - Independent technology news, deep analysis, and original reporting on AI, gadgets, science, and the future.">
+  <meta name="keywords" content="technology news, AI, gadgets, science, cybersecurity, tech analysis, original reporting, news in tech">
+  <meta name="author" content="NewsInTech">
+  <meta property="og:title" content="NewsInTech - Technology News & Analysis">
+  <meta property="og:description" content="Independent tech journalism with original reporting and daily deep dives.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://newsintech.github.io/news/">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
+  <title>NewsInTech - Technology News & Analysis</title>
+  <link rel="canonical" href="https://newsintech.github.io/news/">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&family=Georgia:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>N</text></svg>">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "NewsInTech",
+    "url": "https://newsintech.github.io/news/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://newsintech.github.io/news/?s={search_term_string}",
+      "query-input": "required name=search_term_string"
     }
-    </script>
-    <style>
-        :root {
-            --bg: #fff;
-            --text: #1a1a1a;
-            --link: #0066cc;
-            --accent: #0066cc;
-            --card-bg: #fff;
-            --border: #e0e0e0;
-            --header-height: 60px;
-        }
-        [data-theme="dark"] {
-            --bg: #0d1117;
-            --text: #e6edf3;
-            --link: #58a6ff;
-            --accent: #58a6ff;
-            --card-bg: #161b22;
-            --border: #30363d;
-        }
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body {
-            font-family: 'Libre Franklin', system-ui, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            font-size: 17px;
-        }
-        header {
-            background: var(--card-bg);
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            height: var(--header-height);
-        }
-        nav {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 1rem;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .logo {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--accent);
-            text-decoration: none;
-        }
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            font-weight: 500;
-        }
-        .nav-links a {
-            color: var(--text);
-            text-decoration: none;
-            opacity: 0.9;
-        }
-        .nav-links a:hover { opacity: 1; color: var(--accent); }
-        .search-bar {
-            display: flex;
-            background: var(--border);
-            border-radius: 6px;
-            overflow: hidden;
-            width: 300px;
-        }
-        #searchInput {
-            padding: 10px;
-            border: none;
-            background: transparent;
-            color: var(--text);
-            width: 100%;
-        }
-        .search-btn {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 0 16px;
-            cursor: pointer;
-        }
-        .theme-toggle {
-            background: none;
-            border: none;
-            font-size: 20px;
-            cursor: pointer;
-        }
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-        }
-        .hero {
-            text-align: center;
-            padding: 3rem 0 4rem;
-        }
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--text);
-        }
-        .hero p {
-            font-size: 1.3rem;
-            color: #666;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        .featured-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-        .main-story {
-            grid-row: span 2;
-        }
-        .story-card {
-            background: var(--card-bg);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .story-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
-        }
-        .story-img {
-            width: 100%;
-            height: 260px;
-            object-fit: cover;
-        }
-        .main-story .story-img { height: 500px; }
-        .story-content {
-            padding: 1.5rem;
-        }
-        .story-title {
-            font-size: 1.6rem;
-            font-weight: 600;
-            margin-bottom: 0.8rem;
-            line-height: 1.3;
-        }
-        .main-story .story-title { font-size: 2.4rem; }
-        .story-excerpt {
-            color: #444;
-            font-size: 1.05rem;
-            line-height: 1.6;
-        }
-        .original-badge {
-            background: #c00;
-            color: white;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 0.8rem;
-        }
-        .latest-section h2 {
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 3px solid var(--accent);
-            display: inline-block;
-        }
-        .articles-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 2rem;
-        }
-        .article-card {
-            background: var(--card-bg);
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 1.5rem;
-            transition: all 0.2s;
-        }
-        .article-card:hover { opacity: 0.85; }
-        .article-title {
-            font-size: 1.35rem;
-            font-weight: 600;
-            margin: 0.5rem 0;
-            line-height: 1.4;
-        }
-        .article-title a {
-            color: var(--text);
-            text-decoration: none;
-        }
-        .article-title a:hover {
-            color: var(--accent);
-            text-decoration: underline;
-        }
-        .article-meta {
-            color: #666;
-            font-size: 0.95rem;
-            margin-bottom: 0.8rem;
-        }
-        footer {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: #666;
-            border-top: 1px solid var(--border);
-            margin-top: 4rem;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0; top: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-content {
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 8px;
-            max-width: 800px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        .close { float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
-        .no-results { text-align: center; padding: 2rem; color: #666; font-style: italic; }
-        @media (max-width: 968px) {
-            .featured-grid { grid-template-columns: 1fr; }
-            .main-story .story-img { height: 300px; }
-            .hero h1 { font-size: 2.8rem; }
-        }
-        @media (max-width: 640px) {
-            .search-bar { width: 200px; }
-            .articles-grid { grid-template-columns: 1fr; }
-        }
-        #loading { text-align: center; padding: 3rem; color: var(--accent); }
-        .spinner { border: 2px solid var(--border); border-top: 2px solid var(--accent); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    </style>
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #fff;
+      --text: #1a1a1a;
+      --link: #0066cc;
+      --accent: #0066cc;
+      --card-bg: #fff;
+      --border: #e0e0e0;
+      --header-height: 60px;
+    }
+    [data-theme="dark"] {
+      --bg: #0d1117;
+      --text: #e6edf3;
+      --link: #58a6ff;
+      --accent: #58a6ff;
+      --card-bg: #161b22;
+      --border: #30363d;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Libre Franklin', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 17px;
+    }
+    header {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--header-height);
+    }
+    nav {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      font-weight: 500;
+    }
+    .nav-links a {
+      color: var(--text);
+      text-decoration: none;
+      opacity: 0.9;
+    }
+    .nav-links a:hover { opacity: 1; color: var(--accent); }
+    .search-bar {
+      display: flex;
+      background: var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      width: 300px;
+    }
+    #searchInput {
+      padding: 10px;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      width: 100%;
+    }
+    .search-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0 16px;
+      cursor: pointer;
+    }
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    .hero {
+      text-align: center;
+      padding: 3rem 0 4rem;
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+    .hero p {
+      font-size: 1.3rem;
+      color: #666;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .featured-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+    .main-story {
+      grid-row: span 2;
+    }
+    .story-card {
+      background: var(--card-bg);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .story-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+    }
+    .story-img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+    }
+    .main-story .story-img { height: 500px; }
+    .story-content {
+      padding: 1.5rem;
+    }
+    .story-title {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+      line-height: 1.3;
+    }
+    .main-story .story-title { font-size: 2.4rem; }
+    .story-excerpt {
+      color: #444;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+    .original-badge {
+      background: #c00;
+      color: white;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 0.8rem;
+    }
+    .latest-section h2 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 3px solid var(--accent);
+      display: inline-block;
+    }
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 2rem;
+    }
+    .article-card {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.5rem;
+      transition: all 0.2s;
+    }
+    .article-card:hover { opacity: 0.85; }
+    .article-title {
+      font-size: 1.35rem;
+      font-weight: 600;
+      margin: 0.5rem 0;
+      line-height: 1.4;
+    }
+    .article-title a {
+      color: var(--text);
+      text-decoration: none;
+    }
+    .article-title a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+    .article-meta {
+      color: #666;
+      font-size: 0.95rem;
+      margin-bottom: 0.8rem;
+    }
+    footer {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #666;
+      border-top: 1px solid var(--border);
+      margin-top: 4rem;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal.active {
+      display: flex;
+    }
+    .modal-content {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 8px;
+      max-width: 800px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .close { float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+    .no-results { text-align: center; padding: 2rem; color: #666; font-style: italic; }
+    @media (max-width: 968px) {
+      .featured-grid { grid-template-columns: 1fr; }
+      .main-story .story-img { height: 300px; }
+      .hero h1 { font-size: 2.8rem; }
+    }
+    @media (max-width: 640px) {
+      .search-bar { width: 200px; }
+      .articles-grid { grid-template-columns: 1fr; }
+    }
+    #loading { text-align: center; padding: 3rem; color: var(--accent); }
+    .spinner { border: 2px solid var(--border); border-top: 2px solid var(--accent); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  </style>
 </head>
 <body data-theme="light">
-    <header>
-        <nav>
-            <a href="/" class="logo">NewsInTech</a>
-            <div class="nav-links">
-                <a href="#featured">Featured</a>
-                <a href="#latest">Latest</a>
-                <a href="#" onclick="openTipsModal()">Submit Tip</a>
-            </div>
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Search news...">
-                <button class="search-btn" onclick="searchNews()">Search</button>
-            </div>
-            <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
-        </nav>
-    </header>
-
-    <div class="container">
-        <div class="hero">
-            <h1>NewsInTech</h1>
-            <p>Independent technology news, deep analysis, and original reporting.</p>
-        </div>
-
-        <div id="loading">
-            <div class="spinner"></div>
-            Loading latest tech stories...
-        </div>
-
-        <section id="featured" class="featured-grid" style="display:none;">
-            <!-- Featured stories injected here -->
-        </section>
-
-        <section class="latest-section" id="latest" style="display:none;">
-            <h2>Latest News</h2>
-            <div class="articles-grid" id="articlesContainer"></div>
-            <div style="text-align:center; margin:3rem 0;">
-                <button onclick="loadMore()" style="padding:12px 30px; background:var(--accent); color:white; border:none; border-radius:6px; cursor:pointer; font-size:1.1rem;">Load More Stories</button>
-            </div>
-        </section>
+  <header>
+    <nav>
+      <a href="/" class="logo">NewsInTech</a>
+      <div class="nav-links">
+        <a href="#featured">Featured</a>
+        <a href="#latest">Latest</a>
+        <a href="#" onclick="openTipsModal(); return false;">Submit Tip</a>
+      </div>
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search news...">
+        <button class="search-btn" onclick="searchNews()">Search</button>
+      </div>
+      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+    </nav>
+  </header>
+  <div class="container">
+    <div class="hero">
+      <h1>NewsInTech</h1>
+      <p>Independent technology news, deep analysis, and original reporting.</p>
     </div>
-
-    <footer>
-        <p>© 2025 NewsInTech • Independent Technology Journalism • <a href="#" onclick="openTipsModal()">Submit a tip</a></p>
-    </footer>
-
-    <!-- Modals -->
-    <div id="articleModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">×</span>
-            <div id="modalBody"></div>
-        </div>
+    <div id="loading">
+      <div class="spinner"></div>
+      Loading latest tech stories...
     </div>
+    <section id="featured" class="featured-grid" style="display:none;">
+      <!-- Featured stories injected here -->
+    </section>
+    <section class="latest-section" id="latest" style="display:none;">
+      <h2>Latest News</h2>
+      <div class="articles-grid" id="articlesContainer"></div>
+      <div style="text-align:center; margin:3rem 0;">
+        <button onclick="loadMore()" style="padding:12px 30px; background:var(--accent); color:white; border:none; border-radius:6px; cursor:pointer; font-size:1.1rem;">Load More Stories</button>
+      </div>
+    </section>
+  </div>
+  <footer>
+    <p>© 2025 NewsInTech • Independent Technology Journalism • <a href="#" onclick="openTipsModal(); return false;">Submit a tip</a></p>
+  </footer>
 
-    <div id="tipsModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeTipsModal()">×</span>
-            <h2>Submit a News Tip</h2>
-            <p>100% anonymous • We protect sources</p>
-            <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
-                <input type="text" name="title" placeholder="Headline or tip title" required style="width:100%; padding:12px; margin:10px 0;">
-                <textarea name="message" rows="6" placeholder="Details, links, your thoughts..." required style="width:100%; padding:12px; margin:10px 0;"></textarea>
-                <input type="email" name="_replyto" placeholder="Email (optional)">
-                <button type="submit" style="background:#c00; color:white; padding:12px 24px; border:none; border-radius:6px;">Send Tip</button>
-            </form>
-        </div>
+  <!-- Modals -->
+  <div id="articleModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()" style="cursor:pointer;">×</span>
+      <div id="modalBody"></div>
     </div>
+  </div>
 
-    <script>
-        let allArticles = [];
-        let displayed = 0;
-        let isSearching = false;
-        const PER_PAGE = 15;
-        const RSS2JSON = 'https://api.rss2json.com/v1/api.json?rss_url=';
+  <div id="tipsModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeTipsModal()" style="cursor:pointer;">×</span>
+      <h2>Submit a News Tip</h2>
+      <p>100% anonymous • We protect sources</p>
+      <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+        <input type="text" name="title" placeholder="Headline or tip title" required style="width:100%; padding:12px; margin:10px 0; border:1px solid var(--border); border-radius:4px;">
+        <textarea name="message" rows="6" placeholder="Details, links, your thoughts..." required style="width:100%; padding:12px; margin:10px 0; border:1px solid var(--border); border-radius:4px;"></textarea>
+        <input type="email" name="_replyto" placeholder="Email (optional)" style="width:100%; padding:12px; margin:10px 0; border:1px solid var(--border); border-radius:4px;">
+        <button type="submit" style="padding:10px 20px; background:var(--accent); color:white; border:none; border-radius:4px; cursor:pointer; margin-top:10px;">Send Tip</button>
+      </form>
+    </div>
+  </div>
 
-        const originals = [
-            {
-                id: 'orig1',
-                title: "OpenAI's New Model Changes Everything — Here's Why Most AI Startups Are Doomed",
-                author: "NewsInTech Analysis",
-                pubDate: new Date('2025-11-29'),
-                excerpt: "GPT-4o mini isn't just cheaper—it's a death knell for hundreds of wrapper companies. We ran the numbers on margins, predictions, and historical parallels to the mobile app store shakeup of 2008. With costs down 60% and speed up 2x, expect consolidation: wrappers like Jasper face erosion, while fine-tuning thrives. Our model forecasts 40% failures by mid-2026. Pro tip: Integrate multimodal or pivot hard.",
-                desc: "Full deep dive with charts, CTO interviews, and investor implications. (Sources: OpenAI docs, Crunchbase data).",
-                image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200",
-                source: "NewsInTech Original",
-                isOriginal: true
-            },
-            {
-                id: 'orig2',
-                title: "The Hidden Cost of Quantum Computing Hype: Why 2025 Won't Be the Breakthrough Year",
-                author: "Jordan Lee, Tech Analyst",
-                pubDate: new Date('2025-11-28'),
-                excerpt: "IBM and Google promise supremacy, but error rates are 10x off. Our roadmap deep dive: Scalable qubits elusive, noise levels high. Like Ars' explainers, we unpack patents, benchmarks, and anonymous CTO insights—hybrid systems are pragmatic, not full supremacy. Hype peaks now, ROI lags to 2030. Investor alert inside.",
-                desc: "Detailed patent review, lab benchmarks, and qubit fidelity trends visualized.",
-                image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200",
-                source: "NewsInTech Original",
-                isOriginal: true
-            },
-            {
-                id: 'orig3',
-                title: "EU's AI Act: Ethics Win or Startup Killer? Exclusive Breakdown",
-                author: "Alex Rivera",
-                pubDate: new Date('2025-11-27'),
-                excerpt: "Fines up to €35M hit bootstrappers hard, while giants skirt via proxies. Clause-by-clause analysis: Open-source wins (Hugging Face), transatlantic schism accelerates silos. Policy deep dive with risk matrix for high-risk AI.",
-                desc: "Internal docs, compliance guide, and survival tips for startups.",
-                image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1200",
-                source: "NewsInTech Original",
-                isOriginal: true
-            }
-        ];
+  <script>
+    let allArticles = [];
+    let displayed = 0;
+    let isSearching = false;
+    const PER_PAGE = 15;
+    const RSS2JSON = 'https://api.rss2json.com/v1/api.json?rss_url=';
 
-        const feeds = [
-            'https://techcrunch.com/feed/',
-            'https://www.wired.com/feed/rss',
-            'https://feeds.bbci.co.uk/news/technology/rss.xml',
-            'https://www.theverge.com/rss/index.xml',
-            'https://feeds.arstechnica.com/arstechnica/index',
-            'https://hnrss.org/frontpage',
-            'https://www.technologyreview.com/feed/'
-        ];
+    const originals = [
+      {
+        id: 'orig1',
+        title: "OpenAI's New Model Changes Everything — Here's Why Most AI Startups Are Doomed",
+        author: "NewsInTech Analysis",
+        pubDate: new Date('2025-11-29'),
+        excerpt: "GPT-4o mini isn't just cheaper—it's a death knell for hundreds of wrapper companies. We ran the numbers on margins, predictions, and historical parallels to the mobile app store shakeup of 2008. With costs down 60% and speed up 2x, expect consolidation: wrappers like Jasper face erosion, while fine-tuning thrives. Our model forecasts 40% failures by mid-2026. Pro tip: Integrate multimodal or pivot hard.",
+        desc: "Full deep dive with charts, CTO interviews, and investor implications. (Sources: OpenAI docs, Crunchbase data).",
+        image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200",
+        source: "NewsInTech Original",
+        isOriginal: true
+      },
+      {
+        id: 'orig2',
+        title: "The Hidden Cost of Quantum Computing Hype: Why 2025 Won't Be the Breakthrough Year",
+        author: "Jordan Lee, Tech Analyst",
+        pubDate: new Date('2025-11-28'),
+        excerpt: "IBM and Google promise supremacy, but error rates are 10x off. Our roadmap deep dive: Scalable qubits elusive, noise levels high. Like Ars' explainers, we unpack patents, benchmarks, and anonymous CTO insights—hybrid systems are pragmatic, not full supremacy. Hype peaks now, ROI lags to 2030. Investor alert inside.",
+        desc: "Detailed patent review, lab benchmarks, and qubit fidelity trends visualized.",
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200",
+        source: "NewsInTech Original",
+        isOriginal: true
+      },
+      {
+        id: 'orig3',
+        title: "EU's AI Act: Ethics Win or Startup Killer? Exclusive Breakdown",
+        author: "Alex Rivera",
+        pubDate: new Date('2025-11-27'),
+        excerpt: "Fines up to €35M hit bootstrappers hard, while giants skirt via proxies. Clause-by-clause analysis: Open-source wins (Hugging Face), transatlantic schism accelerates silos. Policy deep dive with risk matrix for high-risk AI.",
+        desc: "Internal docs, compliance guide, and survival tips for startups.",
+        image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1200",
+        source: "NewsInTech Original",
+        isOriginal: true
+      }
+    ];
 
-        async function fetchRSS(url) {
-            try {
-                const proxyUrl = RSS2JSON + encodeURIComponent(url);
-                const response = await fetch(proxyUrl);
-                const data = await response.json();
-                return data.items ? data.items.map(item => ({
-                    id: Math.random().toString(36).substr(2),
-                    title: item.title,
-                    author: item.author || 'NewsInTech Staff',
-                    pubDate: new Date(item.pubDate),
-                    excerpt: (item.description.replace(/<[^>]*>/g, '')).substring(0, 350) + '...',
-                    desc: item.description.replace(/<[^>]*>/g, ''),
-                    image: item.thumbnail || item.enclosure?.link || '',
-                    source: new URL(url).hostname.replace('www.', ''),
-                    isOriginal: false
-                })) : [];
-            } catch (e) {
-                console.error('RSS fetch error:', e);
-                return [];
-            }
-        }
+    const feeds = [
+      'https://techcrunch.com/feed/',
+      'https://www.wired.com/feed/rss',
+      'https://feeds.bbci.co.uk/news/technology/rss.xml',
+      'https://www.theverge.com/rss/index.xml',
+      'https://feeds.arstechnica.com/arstechnica/index',
+      'https://hnrss.org/frontpage',
+      'https://www.technologyreview.com/feed/'
+    ];
 
-        async function loadInitial() {
-            document.getElementById('loading').style.display = 'block';
-            const fetched = await Promise.all(feeds.map(fetchRSS));
-            allArticles = [...originals, ...fetched.flat().filter(a => !originals.some(o => o.title.includes(a.title.substring(0, 50))))];
-            allArticles.sort((a, b) => b.pubDate - a.pubDate);
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('featured').style.display = 'block';
-            document.getElementById('latest').style.display = 'block';
-            renderFeatured(allArticles.slice(0, 5));
-            renderArticles(allArticles.slice(0, PER_PAGE));
-            displayed = PER_PAGE;
-        }
+    async function fetchRSS(url) {
+      try {
+        const proxyUrl = RSS2JSON + encodeURIComponent(url);
+        const response = await fetch(proxyUrl);
+        const data = await response.json();
+        return data.items ? data.items.map(item => ({
+          id: Math.random().toString(36).substr(2),
+          title: item.title,
+          author: item.author || 'NewsInTech Staff',
+          pubDate: new Date(item.pubDate),
+          excerpt: (item.description ? item.description.replace(/<[^>]*>/g, '') : '').substring(0, 350) + '...',
+          desc: item.description ? item.description.replace(/<[^>]*>/g, '') : '',
+          image: item.thumbnail || (item.enclosure && item.enclosure.link) || '',
+          source: new URL(url).hostname.replace('www.', ''),
+          isOriginal: false
+        })) : [];
+      } catch (e) {
+        console.error('RSS fetch error:', e);
+        return [];
+      }
+    }
 
-        function renderFeatured(items) {
-            const container = document.getElementById('featured');
-            container.innerHTML = '';
-            if (items.length === 0) return;
-            // Main story
-            const main = items[0];
-            const mainCard = document.createElement('div');
-            mainCard.className = 'story-card main-story';
-            mainCard.innerHTML = `
-                ${main.image ? `<img src="${main.image}" class="story-img" alt="${main.title}">` : ''}
-                <div class="story-content">
-                    ${main.isOriginal ? '<span class="original-badge">NEWSINTECH ORIGINAL</span>' : ''}
-                    <h2 class="story-title"><a href="#" onclick="openModal('$$ {main.id}')"> $${main.title}</a></h2>
-                    <p class="story-excerpt">${main.excerpt}</p>
-                    <div class="article-meta">By ${main.author} • ${main.pubDate.toLocaleDateString()} • ${main.source}</div>
-                </div>
-            `;
-            container.appendChild(mainCard);
-            // Side stories
-            items.slice(1, 5).forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'story-card';
-                card.innerHTML = `
-                    ${item.image ? `<img src="${item.image}" class="story-img" alt="${item.title}">` : ''}
-                    <div class="story-content">
-                        ${item.isOriginal ? '<span class="original-badge">NEWSINTECH ORIGINAL</span>' : ''}
-                        <h3 class="story-title"><a href="#" onclick="openModal('$$ {item.id}')"> $${item.title}</a></h3>
-                        <p class="story-excerpt">${item.excerpt.substring(0, 150)}...</p>
-                        <div class="article-meta">By ${item.author} • ${item.pubDate.toLocaleDateString()}</div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
+    async function loadInitial() {
+      document.getElementById('loading').style.display = 'block';
+      const fetched = await Promise.all(feeds.map(fetchRSS));
+      allArticles = [...originals, ...fetched.flat().filter(a => !originals.some(o => o.title.includes(a.title.substring(0, 50))))];
+      allArticles.sort((a, b) => b.pubDate - a.pubDate);
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('featured').style.display = 'grid';
+      document.getElementById('latest').style.display = 'block';
+      renderFeatured(allArticles.slice(0, 5));
+      renderArticles(allArticles.slice(0, PER_PAGE));
+      displayed = PER_PAGE;
+    }
 
-        function renderArticles(items) {
-            const container = document.getElementById('articlesContainer');
-            if (isSearching && items.length === 0) {
-                container.innerHTML = '<div class="no-results">No stories found for your search. Try again!</div>';
-                return;
-            }
-            items.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'article-card';
-                card.innerHTML = `
-                    ${item.image ? `<img src="${item.image}" style="width:100%; height:200px; object-fit:cover; border-radius:4px;" alt="${item.title}">` : ''}
-                    <h3 class="article-title"><a href="#" onclick="openModal('$$ {item.id}')"> $${item.title}</a></h3>
-                    ${item.isOriginal ? '<span class="original-badge">NEWSINTECH ORIGINAL</span>' : ''}
-                    <p class="story-excerpt">${item.excerpt}</p>
-                    <div class="article-meta">By ${item.author} • ${item.pubDate.toLocaleDateString()} • ${item.source}</div>
-                `;
-                container.appendChild(card);
-            });
-        }
+    function renderFeatured(items) {
+      const container = document.getElementById('featured');
+      container.innerHTML = '';
+      if (items.length === 0) return;
+      
+      const main = items[0];
+      const mainCard = document.createElement('div');
+      mainCard.className = 'story-card main-story';
+      mainCard.innerHTML = `
+        ${main.image ? `<img src="${main.image}" class="story-img" alt="${main.title}">` : ''}
+        <div class="story-content">
+          ${main.isOriginal ? '<span class="original-badge">NEWSINTECH ORIGINAL</span>' : ''}
+          <h2 class="story-title"><a href="#" onclick="openModal('${main.id}'); return false;">${main.title}</a></h2>
+          <p class="story-excerpt">${main.excerpt}</p>
+          <div class="article-meta">By ${main.author} • ${main.pubDate.toLocaleDateString()} • ${main.source}</div>
+        </div>
+      `;
+      container.appendChild(mainCard);
 
-        function openModal(id) {
-            const item = allArticles.find(a => a.id === id);
-            if (!item) return;
-            document.getElementById('modalBody').innerHTML = `
-                <h2>${item.title}</h2>
-                <p><strong>By ${item.author} | ${item.pubDate.toLocaleDateString()} | ${item.source}</strong></p>
-                <div>${item.desc}</div>
-            `;
-            document.getElementById('articleModal').style.display = 'flex';
-        }
+      items.slice(1, 5).forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'story-card';
+        card.innerHTML = `
+          ${item.image ? `<img src="${item.image}" class="story-img" alt="${item.title}">` : ''}
+          <div class="story-content">
+            ${item.isOriginal ? '<span class="original-badge">NEWSINTECH ORIGINAL</span>' : ''}
+            <h3 class="story-title"><a href="#" onclick="openModal('${item.id}'); return false;">${item.title}</a></h3>
+            <p class="story-excerpt">${item.excerpt.substring(0, 150)}...</p>
+            <div class="article-meta">By ${item.author} • ${item.pubDate.toLocaleDateString()}</div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
 
-        function closeModal() {
-            document.getElementById('articleModal').style.display = 'none';
-        }
+    function renderArticles(items) {
+      const container = document.getElementById('articlesContainer');
+      if (isSearching && items.length === 0) {
+        container.innerHTML = '<div class="no-results">No stories found for your search. Try again!</div>';
+        return;
+      }
+      items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'article-card';
+        card.innerHTML = `
+          ${item.image ? `<img src="${item.image}" style="width:100%; height:200px; object-fit:cover; border-radius:4px;" alt="${item.title}">` : ''}
+          <h3 class="article-title"><a href="#" onclick="openModal('${item.id}'); return false;">${item.title}</a></h3>
+          ${item.isOriginal ? '<span class="original-badge">NEWSINTECH ORIGINAL</span>' : ''}
+          <p class="story-excerpt">${item.excerpt}</p>
+          <div class="article-meta">By ${item.author} • ${item.pubDate.toLocaleDateString()} • ${item.source}</div>
+        `;
+        container.appendChild(card);
+      });
+    }
 
-        function loadMore() {
-            const next = allArticles.slice(displayed, displayed + PER_PAGE);
-            if (next.length > 0) {
-                renderArticles(next);
-                displayed += next.length;
-            }
-        }
+    function openModal(id) {
+      const item = allArticles.find(a => a.id === id);
+      if (!item) return;
+      document.getElementById('modalBody').innerHTML = `
+        <h2>${item.title}</h2>
+        <p><strong>By ${item.author} | ${item.pubDate.toLocaleDateString()} | ${item.source}</strong></p>
+        <div>${item.desc}</div>
+      `;
+      document.getElementById('articleModal').style.display = 'flex';
+    }
 
-        function searchNews() {
-            const query = document.getElementById('searchInput').value.toLowerCase().trim();
-            isSearching = !!query;
-            const filtered = allArticles.filter(a => 
-                a.title.toLowerCase().includes(query) || a.excerpt.toLowerCase().includes(query) || a.desc.toLowerCase().includes(query)
-            );
-            renderFeatured(filtered.slice(0, 5));
-            document.getElementById('articlesContainer').innerHTML = '';
-            renderArticles(filtered.slice(0, PER_PAGE));
-            displayed = PER_PAGE;
-            document.querySelector('#latest button').style.display = filtered.length > PER_PAGE ? 'block' : 'none';
-        }
+    function closeModal() {
+      document.getElementById('articleModal').style.display = 'none';
+    }
 
-        function openTipsModal() {
-            document.getElementById('tipsModal').style.display = 'flex';
-        }
+    function loadMore() {
+      const next = allArticles.slice(displayed, displayed + PER_PAGE);
+      if (next.length > 0) {
+        renderArticles(next);
+        displayed += next.length;
+      }
+    }
 
-        function closeTipsModal() {
-            document.getElementById('tipsModal').style.display = 'none';
-        }
+    function searchNews() {
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+      isSearching = !!query;
+      const filtered = allArticles.filter(a => 
+        a.title.toLowerCase().includes(query) || a.excerpt.toLowerCase().includes(query) || a.desc.toLowerCase().includes(query)
+      );
+      renderFeatured(filtered.slice(0, 5));
+      document.getElementById('articlesContainer').innerHTML = '';
+      renderArticles(filtered.slice(0, PER_PAGE));
+      displayed = PER_PAGE;
+      const btn = document.querySelector('#latest button');
+      if (btn) btn.style.display = filtered.length > PER_PAGE ? 'block' : 'none';
+    }
 
-        function toggleTheme() {
-            const body = document.body;
-            body.dataset.theme = body.dataset.theme === 'dark' ? 'light' : 'dark';
-            localStorage.setItem('theme', body.dataset.theme);
-            document.querySelector('.theme-toggle').textContent = body.dataset.theme === 'dark' ? '☀️' : '🌙';
-        }
+    function openTipsModal() {
+      document.getElementById('tipsModal').style.display = 'flex';
+    }
 
-        // Init
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.dataset.theme = 'dark';
-            document.querySelector('.theme-toggle').textContent = '☀️';
-        }
-        document.getElementById('searchInput').addEventListener('keypress', e => { if (e.key === 'Enter') searchNews(); });
-        window.onclick = e => {
-            if (e.target.classList.contains('modal')) {
-                e.target.style.display = 'none';
-            }
-        };
-        loadInitial();
-        setInterval(loadInitial, 600000); // Refresh every 10 min
-    </script>
+    function closeTipsModal() {
+      document.getElementById('tipsModal').style.display = 'none';
+    }
+
+    function toggleTheme() {
+      const body = document.body;
+      body.dataset.theme = body.dataset.theme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', body.dataset.theme);
+      document.querySelector('.theme-toggle').textContent = body.dataset.theme === 'dark' ? '☀️' : '🌙';
+    }
+
+    // Init
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.dataset.theme = 'dark';
+      document.querySelector('.theme-toggle').textContent = '☀️';
+    }
+    document.getElementById('searchInput').addEventListener('keypress', e => { if (e.key === 'Enter') searchNews(); });
+    window.onclick = e => {
+      if (e.target.classList && e.target.classList.contains('modal')) {
+        e.target.style.display = 'none';
+      }
+    };
+    loadInitial();
+    setInterval(loadInitial, 600000); // Refresh every 10 min
+  </script>
 </body>
 </html>
