@@ -3,114 +3,104 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="NewsInTech - Fast, in-depth technology news with breaking analysis on AI, cybersecurity, and innovation.">
-  <meta name="keywords" content="technology news, AI, tech analysis, cybersecurity, gadgets, science">
+  <meta name="description" content="NewsInTech - Cutting-edge technology news with premium design. AI, gadgets, innovation.">
+  <meta name="keywords" content="technology news, AI, gadgets, innovation, tech reviews, science">
   <meta name="author" content="NewsInTech">
-  <meta name="theme-color" content="#000">
-  <meta property="og:title" content="NewsInTech - Technology News">
-  <meta property="og:description" content="Breaking tech news with fast, expert analysis.">
+  <meta name="theme-color" content="#0a0e27">
+  <meta property="og:title" content="NewsInTech - Future of Technology">
+  <meta property="og:description" content="Premium tech news, analysis, and innovation coverage.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://newsintech.github.io/news/">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="NewsInTech">
-  <meta name="twitter:description" content="Breaking tech news with fast analysis.">
-  <title>NewsInTech - Breaking Technology News</title>
+  <title>NewsInTech - Future of Technology</title>
   <link rel="canonical" href="https://newsintech.github.io/news/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23000' width='100' height='100'/><text y='70' x='50' font-size='60' fill='%23fff' text-anchor='middle' font-weight='bold'>N</text></svg>">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "NewsMediaOrganization",
-    "name": "NewsInTech",
-    "url": "https://newsintech.github.io/news/",
-    "logo": "https://newsintech.github.io/news/logo.svg",
-    "description": "Independent technology journalism",
-    "sameAs": ["https://twitter.com/newsintech", "https://github.com/newsintech"]
-  }
-  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}html{font-size:16px}body{font-family:'Roboto',-apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#1a1a1a;line-height:1.5;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}a{color:#0051ba;text-decoration:none}a:hover{text-decoration:underline}header{background:#000;color:#fff;padding:12px 0;position:sticky;top:0;z-index:100;border-bottom:1px solid #333;font-size:14px}header nav{max-width:1200px;margin:0 auto;padding:0 16px;display:flex;justify-content:space-between;align-items:center;gap:24px}header .logo{font-size:20px;font-weight:700;letter-spacing:-0.5px}header a{color:#999}header a:hover{color:#fff}header .search-box{flex:1;max-width:300px}header input{width:100%;padding:6px 12px;background:#1a1a1a;border:1px solid #333;color:#fff;border-radius:3px;font-size:13px}main{max-width:1200px;margin:0 auto;padding:0 16px}article{margin:24px 0;padding:20px 0;border-bottom:1px solid #eee}article h2{font-size:24px;line-height:1.2;margin:0 0 8px 0;font-weight:700}article .meta{font-size:13px;color:#666;margin:8px 0 16px 0}article p{margin:12px 0;color:#333}article .readmore{font-size:13px;color:#0051ba;font-weight:500}.section-title{font-size:18px;font-weight:700;margin:32px 0 16px 0;padding-bottom:8px;border-bottom:3px solid #0051ba}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin:16px 0}.card{border:1px solid #eee;padding:16px;background:#fafafa;border-radius:2px;transition:background 0.2s}. card:hover{background:#f0f0f0}footer{text-align:center;padding:24px 16px;color:#666;font-size:13px;border-top:1px solid #eee;margin-top:48px}#loading{text-align:center;padding:32px;font-size:14px;color:#666}@media(max-width:768px){header nav{flex-direction:column;gap:12px}header .search-box{max-width:100%;width:100%}article h2{font-size:20px}.grid{grid-template-columns:1fr}}
+    *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth;font-size:16px}body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:linear-gradient(135deg,#0a0e27 0%,#1a1f3a 100%);color:#e5e7eb;line-height:1.6;-webkit-font-smoothing:antialiased}
+    ::selection{background:linear-gradient(135deg,#00d4ff,#0099ff);color:#fff}
+    a{color:#00d4ff;text-decoration:none;transition:all 0.3s ease}a:hover{color:#0099ff;text-shadow:0 0 20px rgba(0,212,255,0.5)}
+    header{background:linear-gradient(180deg,rgba(10,14,39,0.95),rgba(26,31,58,0.8));border-bottom:2px solid;border-image:linear-gradient(90deg,#00d4ff,#9d4edd,#ff006e) 1;backdrop-filter:blur(10px);position:sticky;top:0;z-index:1000;padding:16px 0}
+    nav{max-width:1400px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;gap:30px}
+    .logo{font-family:'Poppins';font-size:24px;font-weight:800;background:linear-gradient(135deg,#00d4ff 0%,#9d4edd 50%,#ff006e 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-1px}
+    .nav-center{display:flex;gap:40px}nav a{font-size:14px;color:#b0b7c5;font-weight:500}nav a:hover{color:#00d4ff}
+    .search-box{flex:1;max-width:400px;position:relative}header input{width:100%;padding:10px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(0,212,255,0.2);color:#e5e7eb;border-radius:8px;font-size:13px;backdrop-filter:blur(10px);transition:all 0.3s}header input:focus{outline:none;background:rgba(255,255,255,0.1);border-color:#00d4ff;box-shadow:0 0 20px rgba(0,212,255,0.2)}
+    main{max-width:1400px;margin:0 auto;padding:60px 20px}
+    .hero{text-align:center;margin-bottom:80px;animation:fadeInDown 0.8s ease}
+    .hero h1{font-family:'Poppins';font-size:56px;font-weight:800;margin-bottom:16px;background:linear-gradient(135deg,#fff 0%,#00d4ff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-2px}
+    .hero p{font-size:18px;color:#b0b7c5;max-width:600px;margin:0 auto}
+    .section-title{font-family:'Poppins';font-size:32px;font-weight:700;margin:60px 0 30px;color:#fff;border-left:4px solid #00d4ff;padding-left:16px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px;margin:30px 0}
+    .card{background:linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02));border:1px solid rgba(0,212,255,0.1);border-radius:12px;padding:24px;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);cursor:pointer;position:relative;overflow:hidden}
+    .card::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,212,255,0.1),transparent);transition:left 0.5s;z-index:1}
+    .card:hover::before{left:100%}
+    .card:hover{border-color:#00d4ff;background:linear-gradient(135deg,rgba(0,212,255,0.1),rgba(157,78,221,0.05));transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,212,255,0.1)}
+    .card h3{font-family:'Poppins';font-size:18px;font-weight:700;margin-bottom:12px;color:#fff;line-height:1.4}
+    .card .meta{font-size:12px;color:#9ca3af;margin-bottom:12px;display:flex;gap:12px;align-items:center}
+    .meta span{display:flex;align-items:center;gap:4px}
+    .badge{display:inline-block;padding:4px 10px;background:linear-gradient(135deg,rgba(0,212,255,0.2),rgba(157,78,221,0.2));border:1px solid rgba(0,212,255,0.3);border-radius:20px;font-size:11px;color:#00d4ff;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+    .card p{font-size:14px;color:#d1d5db;line-height:1.6;margin:12px 0}
+    .card a{display:inline-block;margin-top:12px;padding:8px 16px;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);border-radius:6px;color:#00d4ff;font-size:12px;font-weight:600;transition:all 0.3s}
+    .card a:hover{background:rgba(0,212,255,0.2);box-shadow:0 0 15px rgba(0,212,255,0.3)}
+    .featured{grid-column:1/-1;background:linear-gradient(135deg,rgba(0,212,255,0.15),rgba(157,78,221,0.1));border:2px solid rgba(0,212,255,0.3);padding:32px}
+    .featured h2{font-family:'Poppins';font-size:28px;color:#00d4ff;margin-bottom:12px}
+    .featured .meta{color:#b0b7c5;font-size:13px}
+    .featured p{font-size:16px;color:#e5e7eb;line-height:1.8;margin:16px 0}
+    footer{text-align:center;padding:40px 20px;border-top:1px solid rgba(0,212,255,0.1);margin-top:80px;color:#9ca3af;font-size:13px}
+    #loading{text-align:center;padding:60px 20px}
+    .spinner{display:inline-block;width:40px;height:40px;border:3px solid rgba(0,212,255,0.2);border-top-color:#00d4ff;border-radius:50%;animation:spin 1s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+    @media(max-width:768px){.hero h1{font-size:36px}.section-title{font-size:24px}.grid{grid-template-columns:1fr}.featured{padding:20px}.nav-center{gap:20px;display:none}header input{max-width:100%}}
   </style>
 </head>
 <body>
   <header>
     <nav>
       <div class="logo">NewsInTech</div>
-      <input type="text" id="searchInput" placeholder="Search news..." aria-label="Search news">
-      <a href="#" onclick="return false">About</a>
+      <div class="nav-center">
+        <a href="#">Featured</a>
+        <a href="#">Latest</a>
+        <a href="#">Categories</a>
+      </div>
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search tech news..." aria-label="Search">
+      </div>
     </nav>
   </header>
   <main>
+    <div class="hero">
+      <h1>The Future of Technology</h1>
+      <p>Breaking news, deep analysis, and innovation coverage</p>
+    </div>
     <div id="loading" style="display:none;">
-      <p>Loading latest tech news...</p>
+      <div class="spinner"></div>
+      <p style="margin-top:20px;color:#b0b7c5;">Loading cutting-edge tech stories...</p>
     </div>
     <div id="content"></div>
   </main>
   <footer>
-    <p>&copy; 2025 NewsInTech. Independent technology journalism. <a href="#">Submit tip</a></p>
+    <p>&copy; 2025 NewsInTech. Premium technology journalism. <a href="#">Submit tip</a></p>
   </footer>
   <script>
-    const RSS2JSON = 'https://api.rss2json.com/v1/api.json?rss_url=';
-    const feeds = [
-      'https://feeds.arstechnica.com/arstechnica/index',
-      'https://www.theverge.com/rss/index.xml',
-      'https://techcrunch.com/feed/',
-      'https://hnrss.org/frontpage'
-    ];
-    const contentDiv = document.getElementById('content');
-    const loadingDiv = document.getElementById('loading');
-    const searchInput = document.getElementById('searchInput');
-    let allArticles = [];
-
-    async function fetchFeeds() {
-      loadingDiv.style.display = 'block';
-      const results = await Promise.all(feeds.map(fetchFeed));
-      allArticles = results.flat().sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-      loadingDiv.style.display = 'none';
-      renderArticles(allArticles.slice(0, 30));
-    }
-
-    async function fetchFeed(url) {
-      try {
-        const response = await fetch(RSS2JSON + encodeURIComponent(url));
-        const data = await response.json();
-        return (data.items || []).map(item => ({
-          title: item.title || 'Untitled',
-          description: (item.description || '').replace(/<[^>]*>/g, '').substring(0, 200) + '...',
-          link: item.link || '#',
-          pubDate: item.pubDate || new Date().toISOString(),
-          source: new URL(url).hostname.replace('www.', '').replace('feeds.', '')
-        }));
-      } catch (e) {
-        console.error('Feed error:', e);
-        return [];
-      }
-    }
-
-    function renderArticles(articles) {
-      contentDiv.innerHTML = articles.map((article, i) => `
-        <article>
-          <h2><a href="${article.link}" target="_blank" rel="noopener">${article.title}</a></h2>
-          <div class="meta">${article.source} • ${new Date(article.pubDate).toLocaleDateString()}</div>
-          <p>${article.description}</p>
-        </article>
-      `).join('');
-    }
-
-    searchInput.addEventListener('input', (e) => {
-      const query = e.target.value.toLowerCase();
-      const filtered = allArticles.filter(a => 
-        a.title.toLowerCase().includes(query) || 
-        a.description.toLowerCase().includes(query)
-      );
-      renderArticles(filtered.slice(0, 30) || allArticles.slice(0, 30));
-    });
-
-    fetchFeeds();
-    setInterval(fetchFeeds, 600000);
+    const RSS2JSON='https://api.rss2json.com/v1/api.json?rss_url=';
+    const feeds=['https://feeds.arstechnica.com/arstechnica/index','https://www.theverge.com/rss/index.xml','https://www.engadget.com/rss.xml','https://feeds.wired.com/wired/index','https://www.cnet.com/rss/news/'];
+    let allArticles=[],searchInput=document.getElementById('searchInput'),contentDiv=document.getElementById('content'),loadingDiv=document.getElementById('loading');
+    async function fetchFeeds(){loadingDiv.style.display='block';const results=await Promise.all(feeds.map(f=>fetchFeed(f)));allArticles=results.flat().sort((a,b)=>new Date(b.pubDate)-new Date(a.pubDate));loadingDiv.style.display='none';renderArticles(allArticles.slice(0,25));}
+    async function fetchFeed(url){try{const response=await fetch(RSS2JSON+encodeURIComponent(url)),data=await response.json();return(data.items||[]).map(item=>({title:item.title||'Untitled',desc:(item.description||'').replace(/<[^>]*>/g,'').substring(0,220)+('...',link:item.link||'#',pubDate:item.pubDate||new Date().toISOString(),source:new URL(url).hostname.replace('www.','').replace('feeds.','').split('.')[0].toUpperCase()}));}catch(e){console.error(e);return[];}}
+    function renderArticles(articles){contentDiv.innerHTML=articles.map((a,i)=>`
+      <article class="card ${i===0?'featured':''}">
+        <h${i===0?'2':'3'} style="margin:0 0 8px 0">${a.title}</h${i===0?'2':'3'}>
+        <div class="meta">
+          <span class="badge">${a.source}</span>
+          <span>${new Date(a.pubDate).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span>
+        </div>
+        <p>${a.desc}</p>
+        <a href="${a.link}" target="_blank" rel="noopener">Read Full Article →</a>
+      </article>
+    `).join('');}
+    searchInput.addEventListener('input',(e)=>{const q=e.target.value.toLowerCase(),filtered=allArticles.filter(a=>a.title.toLowerCase().includes(q)||a.desc.toLowerCase().includes(q));renderArticles(filtered.slice(0,25)||allArticles.slice(0,25));});
+    fetchFeeds();setInterval(fetchFeeds,600000);
   </script>
 </body>
 </html>
