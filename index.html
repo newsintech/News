@@ -324,7 +324,7 @@
             <span class="close" onclick="closeTipsModal()">×</span>
             <h2>Submit a News Tip</h2>
             <p>100% anonymous • We protect sources</p>
-            <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST"> <!-- Replace with your ID -->
+            <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
                 <input type="text" name="title" placeholder="Headline or tip title" required style="width:100%; padding:12px; margin:10px 0;">
                 <textarea name="message" rows="6" placeholder="Details, links, your thoughts..." required style="width:100%; padding:12px; margin:10px 0;"></textarea>
                 <input type="email" name="_replyto" placeholder="Email (optional)">
@@ -433,7 +433,7 @@
                 ${main.image ? `<img src="${main.image}" class="story-img" alt="${main.title}">` : ''}
                 <div class="story-content">
                     ${main.isOriginal ? '<span class="original-badge">NEWSINTECH ORIGINAL</span>' : ''}
-                    <h2 class="story-title"><a href="#" onclick="openModal('${main.id}')">${main.title}</a></h2>
+                    <h2 class="story-title"><a href="#" onclick="openModal('$$ {main.id}')"> $${main.title}</a></h2>
                     <p class="story-excerpt">${main.excerpt}</p>
                     <div class="article-meta">By ${main.author} • ${main.pubDate.toLocaleDateString()} • ${main.source}</div>
                 </div>
@@ -447,7 +447,7 @@
                     ${item.image ? `<img src="${item.image}" class="story-img" alt="${item.title}">` : ''}
                     <div class="story-content">
                         ${item.isOriginal ? '<span class="original-badge">NEWSINTECH ORIGINAL</span>' : ''}
-                        <h3 class="story-title"><a href="#" onclick="openModal('${item.id}')">${item.title}</a></h3>
+                        <h3 class="story-title"><a href="#" onclick="openModal('$$ {item.id}')"> $${item.title}</a></h3>
                         <p class="story-excerpt">${item.excerpt.substring(0, 150)}...</p>
                         <div class="article-meta">By ${item.author} • ${item.pubDate.toLocaleDateString()}</div>
                     </div>
@@ -467,7 +467,7 @@
                 card.className = 'article-card';
                 card.innerHTML = `
                     ${item.image ? `<img src="${item.image}" style="width:100%; height:200px; object-fit:cover; border-radius:4px;" alt="${item.title}">` : ''}
-                    <h3 class="article-title"><a href="#" onclick="openModal('${item.id}')">${item.title}</a></h3>
+                    <h3 class="article-title"><a href="#" onclick="openModal('$$ {item.id}')"> $${item.title}</a></h3>
                     ${item.isOriginal ? '<span class="original-badge">NEWSINTECH ORIGINAL</span>' : ''}
                     <p class="story-excerpt">${item.excerpt}</p>
                     <div class="article-meta">By ${item.author} • ${item.pubDate.toLocaleDateString()} • ${item.source}</div>
