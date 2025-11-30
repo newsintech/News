@@ -1,1 +1,94 @@
-VALID_API_KEY
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        .news-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px;
+        }
+        .news-item {
+            background: white;
+            margin: 10px;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .news-item h2 {
+            font-size: 18px;
+            margin: 0 0 10px;
+        }
+        .news-item p {
+            font-size: 14px;
+            color: #555;
+        }
+        .news-item a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Latest News</h1>
+    </header>
+    <div class="news-container" id="news-container">
+        <!-- News articles will be dynamically inserted here -->
+    </div>
+    <script>
+        const API_KEY = 'VALID_API_KEY';
+        const API_URL = `https://gnews.io/api/v4/top-headlines?token=${API_KEY}&lang=en`;
+
+        async function fetchNews() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                const newsContainer = document.getElementById('news-container');
+
+                data.articles.forEach(article => {
+                    const newsItem = document.createElement('div');
+                    newsItem.className = 'news-item';
+
+                    const title = document.createElement('h2');
+                    title.textContent = article.title;
+
+                    const description = document.createElement('p');
+                    description.textContent = article.description;
+
+                    const link = document.createElement('a');
+                    link.href = article.url;
+                    link.textContent = 'Read more';
+                    link.target = '_blank';
+
+                    newsItem.appendChild(title);
+                    newsItem.appendChild(description);
+                    newsItem.appendChild(link);
+
+                    newsContainer.appendChild(newsItem);
+                });
+            } catch (error) {
+                console.error('Error fetching news:', error);
+            }
+        }
+
+        fetchNews();
+    </script>
+</body>
+</html>
