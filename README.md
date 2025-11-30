@@ -1,6 +1,6 @@
 # Tech News Platform
 
-**Status**: 🚀 Live at [newsintech.github.io/news](https://newsintech.github.io/news/)
+**Status**: 🚀 Live at [newsintech.github.io/news](https://newsintech.github.io/News/)
 
 ## 📰 Overview
 
