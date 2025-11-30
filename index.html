@@ -7,7 +7,30 @@
 <script>
     (function() {
         var d = document, s = d.createElement('script');
-        s.src = 'https://your-disqus-shortname.disqus.com/embed
+        s.src = 'https://your-disqus-shortname.disqus.com/embe
+<!-- Enhanced Search Bar -->
+<div>
+  <input type="text" id="searchBar" placeholder="Search..." onkeyup="searchFunction()">
+  <ul id="searchResults"></ul>
+</div>
+<script>
+  function searchFunction() {
+    const input = document.getElementById('searchBar').value.toLowerCase();
+    const results = document.getElementById('searchResults');
+    results.innerHTML = '';
+    const pages = ['index.html', 'about.html', 'categories.html', 'contact.html'];
+    pages.forEach(page => {
+      if (page.toLowerCase().includes(input)) {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = page;
+        a.textContent = page;
+        li.appendChild(a);
+        results.appendChild(li);
+      }
+    });
+  }
+</script>d
 <!-- Mailchimp Newsletter Signup Form -->
 <form action="https://placeholder.mailchimp.com/subscribe" method="post">
   <label for="email">Subscribe to our newsletter:</label>
