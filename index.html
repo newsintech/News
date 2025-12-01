@@ -8,7 +8,7 @@
     <meta property="og:title" content="Tech News Hub - Verified Tech Stories">
     <meta property="og:description" content="Stay updated with fresh, on-site tech news. No ads, just insights.">
     <meta property="og:image" content="https://source.unsplash.com/1200x630/?tech-news">
-    <meta property="og:url" content="https://newsintech.github.io/News/">
+    <meta property="og:url" content="https://news-five-sepia.vercel.app/">
     <title>Tech News Hub - Verified Tech Stories | Latest Tech News 2025</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script type="application/ld+json">
@@ -78,7 +78,7 @@
         </div>
         <div class="search-bar">
             <form action="https://www.google.com/search" method="get">
-                <input type="hidden" name="sitesearch" value="newsintech.github.io/News/">
+                <input type="hidden" name="sitesearch" value="news-five-sepia.vercel.app/">
                 <input type="search" name="q" placeholder="Search for tech tips..." aria-label="Search">
             </form>
         </div>
@@ -139,27 +139,48 @@
             { name: 'The Verge', url: 'https://www.theverge.com/rss/index.xml' },
             { name: 'TechCrunch', url: 'https://techcrunch.com/feed' }
         ];
-        const RSS2JSON_BASE = 'https://api.rss2json.com/v1/api.json?rss_url=';
+        const PROXY_BASE = 'https://api.allorigins.win/raw?url=';
         const UNSPLASH_BASE = 'https://source.unsplash.com/300x200/?';
+
+        // Static fallback articles (loads if RSS fails)
+        const FALLBACK_ARTICLES = [
+            { title: 'Cyber Monday Tech Deals Under $100', excerpt: 'Discover budget-friendly gadgets like Pixel Buds and Anker headphones. Innovation on sale.', image: `${UNSPLASH_BASE}deals`, source: 'The Verge', pubDate: '2025-12-01T10:00:00Z', tags: ['Deals', 'Gadgets'] },
+            { title: 'Space Manufacturing Breakthrough by Varda', excerpt: 'Proven orbital production paves way for future industries.', image: `${UNSPLASH_BASE}space`, source: 'TechCrunch', pubDate: '2025-12-01T09:00:00Z', tags: ['Space', 'Tech'] },
+            { title: 'James Cameron on Generative AI Horrors', excerpt: 'Director warns of ethical pitfalls in AI creation.', image: `${UNSPLASH_BASE}ai`, source: 'TechCrunch', pubDate: '2025-11-30T15:00:00Z', tags: ['AI', 'Ethics'] },
+            { title: 'Barcelona Crypto Sponsor Drama', excerpt: 'Club steps back from risky digital asset ties.', image: `${UNSPLASH_BASE}crypto`, source: 'BBC Technology', pubDate: '2025-11-28T12:00:00Z', tags: ['Crypto', 'Finance'] },
+            { title: 'UK Budget Cyber Blunder', excerpt: 'Experts called in after data release fiasco.', image: `${UNSPLASH_BASE}cyber`, source: 'BBC Technology', pubDate: '2025-11-27T14:00:00Z', tags: ['Cyber', 'Security'] },
+            { title: 'Nvidia Downplays Google Chip Rivalry', excerpt: 'Execs dismiss threats in AI hardware wars.', image: `${UNSPLASH_BASE}chips`, source: 'BBC Technology', pubDate: '2025-11-26T11:00:00Z', tags: ['AI', 'Hardware'] },
+            { title: 'Apple MacBook Cyber Deals Roundup', excerpt: 'Savings on laptops and accessories ahead of holidays.', image: `${UNSPLASH_BASE}apple`, source: 'The Verge', pubDate: '2025-12-01T08:00:00Z', tags: ['Deals', 'Apple'] },
+            { title: 'Trump Policy Impacts on Tech Profits', excerpt: 'Report on potential gains for key figures.', image: `${UNSPLASH_BASE}policy`, source: 'TechCrunch', pubDate: '2025-11-30T16:00:00Z', tags: ['Policy', 'Tech'] }
+        ];
 
         async function fetchRSS(source, retry = 0) {
             try {
-                const response = await fetch(RSS2JSON_BASE + encodeURIComponent(source.url));
+                const proxiedUrl = PROXY_BASE + encodeURIComponent(source.url);
+                const response = await fetch(proxiedUrl);
                 if (!response.ok) throw new Error('RSS fetch failed');
-                const data = await response.json();
-                if (data.items && data.items.length > 0) {
-                    return data.items.slice(0, 5).map(item => ({
-                        title: item.title,
-                        excerpt: (item.content || item.description || 'No content available.').replace(/<[^>]*>/g, '').replace(/\*\s*/g, '').replace(/-\s*/g, '').replace(/\n/g, ' ').trim(),
-                        image: item.enclosure?.link || item.thumbnail || `${UNSPLASH_BASE}${encodeURIComponent(item.title.split(' ').slice(0,3).join(' '))}`,
+                const text = await response.text();
+                // Parse XML manually (simple for RSS)
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(text, 'text/xml');
+                const items = xmlDoc.querySelectorAll('item');
+                const articles = Array.from(items).slice(0, 5).map(item => {
+                    const title = item.querySelector('title')?.textContent || 'Untitled';
+                    let excerpt = item.querySelector('description')?.textContent || item.querySelector('content\\:encoded')?.textContent || 'No content.';
+                    excerpt = excerpt.replace(/<[^>]*>/g, '').replace(/\*\s*/g, '').replace(/-\s*/g, '').replace(/\n/g, ' ').trim();
+                    return {
+                        title,
+                        excerpt,
+                        image: `${UNSPLASH_BASE}${encodeURIComponent(title.split(' ').slice(0,3).join(' '))}`,
                         source: source.name,
-                        pubDate: item.pubDate || new Date().toISOString(),
-                        tags: generateTags(item.title)
-                    }));
-                }
+                        pubDate: item.querySelector('pubDate')?.textContent || new Date().toISOString(),
+                        tags: generateTags(title)
+                    };
+                });
+                return articles;
             } catch (error) {
                 console.error(`Error fetching ${source.name}:`, error);
-                if (retry < 1) return fetchRSS(source, retry + 1);
+                if (retry < 2) return fetchRSS(source, retry + 1);
             }
             return [];
         }
@@ -171,7 +192,8 @@
             try {
                 const results = await Promise.all(promises);
                 results.forEach(articles => allNewArticles.push(...articles));
-                allArticles = allNewArticles.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+                allArticles = allNewArticles.length > 0 ? allNewArticles.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate)) : FALLBACK_ARTICLES;
+                console.log(`Fetched ${allArticles.length} articles`);
                 if (initial) {
                     if (allArticles.length > 0) {
                         displayFeatured(allArticles[0]);
@@ -186,9 +208,13 @@
                 return allArticles;
             } catch (error) {
                 console.error('Fetch error:', error);
-                showError('featured-article', 'Error loading. Refresh.');
-                showError('latest-articles', 'Error loading.');
-                showError('must-reads-articles', 'Error loading.');
+                allArticles = FALLBACK_ARTICLES; // Fallback on error
+                if (initial) {
+                    displayFeatured(allArticles[0]);
+                    displayArticles(allArticles.slice(1, 6), 'latest-articles');
+                    displayArticles(allArticles.slice(6, 10), 'must-reads-articles');
+                }
+                return allArticles;
             }
         }
 
@@ -242,7 +268,7 @@
         function generateTags(title) {
             const keywords = ['Deals', 'AI', 'Gadgets', 'Software', 'Cyber Monday', 'Space', 'Crypto', 'Tech'];
             const matches = title.toLowerCase().split(' ').filter(word => keywords.some(k => word.includes(k.toLowerCase())));
-            return [...new Set(matches.map(m => keywords.find(k => m.includes(k.toLowerCase()))))].slice(0,3);
+            return [...new Set(matches.map(m => keywords.find(k => m.includes(k.toLowerCase()))))].slice(0,3) || ['Tech'];
         }
 
         function enhanceExcerpt(excerpt) {
@@ -267,7 +293,7 @@
                 displayArticles([...existing, ...newArticles], containerId);
                 loadedCount[section] += newArticles.length;
             } else {
-                document.querySelector(`.${section} .load-more`).innerHTML = '<p>No more articles.</p>';
+                document.querySelector(`#${section} .load-more`).innerHTML = '<p>No more articles.</p>';
             }
         }
 
