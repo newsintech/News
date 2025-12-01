@@ -133,11 +133,11 @@
     </noscript>
     <script>
         let allArticles = []; let loadedCount = { latest: 5, 'must-reads': 3 };
-        const NEWS_DATA_KEY = 'pub_f40a0868e4d04207ba66758dfe8bc6e1'; // Paste from dashboard
-        const GNEWS_TOKEN = '6eeb697b9e6e7c80826f2d144bff1fca'; // Paste from dashboard
+        const NEWS_DATA_KEY = 'pub_f40a0868e4d04207ba66758dfe8bc6e1'; // Replace with your key
+        const GNEWS_TOKEN = '6eeb697b9e6e7c80826f2d144bff1fca'; // Replace with your token
         const UNSPLASH_BASE = 'https://source.unsplash.com/300x200/?';
 
-        // Fallback articles (loads if APIs fail)
+        // Fallback articles
         const FALLBACK_ARTICLES = [
             { title: 'Cyber Monday Tech Deals Under $100', excerpt: 'Discover budget-friendly gadgets like Pixel Buds and Anker headphones. Innovation on sale.', image: `${UNSPLASH_BASE}deals`, source: 'The Verge', pubDate: '2025-12-01T10:00:00Z', tags: ['Deals', 'Gadgets'] },
             { title: 'Space Manufacturing Breakthrough by Varda', excerpt: 'Proven orbital production paves way for future industries.', image: `${UNSPLASH_BASE}space`, source: 'TechCrunch', pubDate: '2025-12-01T09:00:00Z', tags: ['Space', 'Tech'] },
@@ -150,12 +150,17 @@
         ];
 
         async function fetchNewsData() {
+            if (NEWS_DATA_KEY === 'pub_f40a0868e4d04207ba66758dfe8bc6e1') {
+                console.log('NewsData key not set - skipping');
+                return [];
+            }
             try {
-                const url = `https://newsdata.io/api/1/news?apikey=${NEWS_DATA_KEY}&category=technology&language=en&size=20`;
+                const url = `https://newsdata.io/api/1/news?apikey=${pub_f40a0868e4d04207ba66758dfe8bc6e1}&category=technology&language=en&size=20`;
                 const response = await fetch(url);
-                if (!response.ok) throw new Error('NewsData fetch failed');
+                if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 const data = await response.json();
-                if (data.results && data.results.length > 0) {
+                console.log('NewsData response:', data.status); // Log for debug
+                if (data.status === 'success' && data.results && data.results.length > 0) {
                     return data.results.map(article => ({
                         title: article.title,
                         excerpt: article.description || 'No description available.',
@@ -172,11 +177,16 @@
         }
 
         async function fetchGNews() {
+            if (GNEWS_TOKEN === '6eeb697b9e6e7c80826f2d144bff1fca') {
+                console.log('GNews token not set - skipping');
+                return [];
+            }
             try {
-                const url = `https://gnews.io/api/v4/search?q=technology&token=${GNEWS_TOKEN}&lang=en&max=20`;
+                const url = `https://gnews.io/api/v4/search?q=technology&token=${6eeb697b9e6e7c80826f2d144bff1fca}&lang=en&max=20`;
                 const response = await fetch(url);
-                if (!response.ok) throw new Error('GNews fetch failed');
+                if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 const data = await response.json();
+                console.log('GNews response:', data.totalArticles); // Log for debug
                 if (data.articles && data.articles.length > 0) {
                     return data.articles.map(article => ({
                         title: article.title,
@@ -198,11 +208,12 @@
             let articles = await fetchNewsData();
             if (articles.length === 0) articles = await fetchGNews();
             allArticles = articles.length > 0 ? articles.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate)) : FALLBACK_ARTICLES;
-            console.log(`Fetched ${allArticles.length} articles from APIs`);
+            console.log(`Fetched ${allArticles.length} articles from APIs (real: ${articles.length})`);
             if (initial) displayContent();
             return allArticles;
         }
 
+        // Rest of functions (displayContent, showError, displayFeatured, displayArticles, generateTags, enhanceExcerpt, loadMore) remain the same as previous code
         function displayContent() {
             if (allArticles.length > 0) {
                 displayFeatured(allArticles[0]);
