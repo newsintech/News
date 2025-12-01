@@ -133,10 +133,9 @@
     </noscript>
     <script>
         let allArticles = []; let loadedCount = { latest: 5, 'must-reads': 3 };
-        const NEWS_DATA_KEY = 'pub_f40a0868e4d04207ba66758dfe8bc6e1'; // Replace with your key
-        const GNEWS_TOKEN = '6eeb697b9e6e7c80826f2d144bff1fca'; // Replace with your token
+        const NEWS_DATA_KEY = 'pub_f40a0868e4d04207ba66758dfe8bc6e1'; // Your key
+        const GNEWS_TOKEN = '6eeb697b9e6e7c80826f2d144bff1fca'; // Your token
         const UNSPLASH_BASE = 'https://source.unsplash.com/300x200/?';
-
         // Fallback articles
         const FALLBACK_ARTICLES = [
             { title: 'Cyber Monday Tech Deals Under $100', excerpt: 'Discover budget-friendly gadgets like Pixel Buds and Anker headphones. Innovation on sale.', image: `${UNSPLASH_BASE}deals`, source: 'The Verge', pubDate: '2025-12-01T10:00:00Z', tags: ['Deals', 'Gadgets'] },
@@ -148,18 +147,17 @@
             { title: 'Apple MacBook Cyber Deals Roundup', excerpt: 'Savings on laptops and accessories ahead of holidays.', image: `${UNSPLASH_BASE}apple`, source: 'The Verge', pubDate: '2025-12-01T08:00:00Z', tags: ['Deals', 'Apple'] },
             { title: 'Trump Policy Impacts on Tech Profits', excerpt: 'Report on potential gains for key figures.', image: `${UNSPLASH_BASE}policy`, source: 'TechCrunch', pubDate: '2025-11-30T16:00:00Z', tags: ['Policy', 'Tech'] }
         ];
-
         async function fetchNewsData() {
-            if (NEWS_DATA_KEY === 'pub_f40a0868e4d04207ba66758dfe8bc6e1') {
+            if (NEWS_DATA_KEY === 'YOUR_NEWS_DATA_IO_API_KEY_HERE') {
                 console.log('NewsData key not set - skipping');
                 return [];
             }
             try {
-                const url = `https://newsdata.io/api/1/news?apikey=${pub_f40a0868e4d04207ba66758dfe8bc6e1}&category=technology&language=en&size=20`;
+                const url = `https://newsdata.io/api/1/news?apikey=${NEWS_DATA_KEY}&category=technology&language=en&size=20`;
                 const response = await fetch(url);
                 if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 const data = await response.json();
-                console.log('NewsData response:', data.status); // Log for debug
+                console.log('NewsData response:', data.status);
                 if (data.status === 'success' && data.results && data.results.length > 0) {
                     return data.results.map(article => ({
                         title: article.title,
@@ -175,18 +173,17 @@
             }
             return [];
         }
-
         async function fetchGNews() {
-            if (GNEWS_TOKEN === '6eeb697b9e6e7c80826f2d144bff1fca') {
+            if (GNEWS_TOKEN === 'YOUR_GNEWS_IO_TOKEN_HERE') {
                 console.log('GNews token not set - skipping');
                 return [];
             }
             try {
-                const url = `https://gnews.io/api/v4/search?q=technology&token=${6eeb697b9e6e7c80826f2d144bff1fca}&lang=en&max=20`;
+                const url = `https://gnews.io/api/v4/search?q=technology&token=${GNEWS_TOKEN}&lang=en&max=20`;
                 const response = await fetch(url);
                 if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 const data = await response.json();
-                console.log('GNews response:', data.totalArticles); // Log for debug
+                console.log('GNews response:', data.totalArticles);
                 if (data.articles && data.articles.length > 0) {
                     return data.articles.map(article => ({
                         title: article.title,
@@ -202,7 +199,6 @@
             }
             return [];
         }
-
         async function fetchAllNews(initial = true) {
             if (allArticles.length > 0 && !initial) return allArticles;
             let articles = await fetchNewsData();
@@ -212,8 +208,6 @@
             if (initial) displayContent();
             return allArticles;
         }
-
-        // Rest of functions (displayContent, showError, displayFeatured, displayArticles, generateTags, enhanceExcerpt, loadMore) remain the same as previous code
         function displayContent() {
             if (allArticles.length > 0) {
                 displayFeatured(allArticles[0]);
@@ -225,11 +219,9 @@
                 showError('must-reads-articles', 'No must-reads.');
             }
         }
-
         function showError(containerId, message) {
             document.getElementById(containerId).innerHTML = `<div class="error-msg" role="alert">${message}</div>`;
         }
-
         function displayFeatured(article) {
             const excerpt = enhanceExcerpt(article.excerpt).slice(0, 400);
             const readTime = Math.ceil(excerpt.split(' ').length / 150) + ' min read';
@@ -246,7 +238,6 @@
             `;
             document.getElementById('featured-article').innerHTML = card;
         }
-
         function displayArticles(articles, containerId) {
             const container = document.getElementById(containerId);
             if (articles.length === 0) {
@@ -272,13 +263,11 @@
                 `;
             }).join('');
         }
-
         function generateTags(title) {
             const keywords = ['Deals', 'AI', 'Gadgets', 'Software', 'Cyber Monday', 'Space', 'Crypto', 'Tech'];
             const matches = title.toLowerCase().split(' ').filter(word => keywords.some(k => word.includes(k.toLowerCase())));
             return [...new Set(matches.map(m => keywords.find(k => m.includes(k.toLowerCase()))))].slice(0,3) || ['Tech'];
         }
-
         function enhanceExcerpt(excerpt) {
             if (!excerpt || excerpt.length < 50) return excerpt;
             const templates = [
@@ -290,7 +279,6 @@
             ];
             return templates[Math.floor(Math.random() * templates.length)].replace('${excerpt}', excerpt);
         }
-
         async function loadMore(section) {
             const articles = await fetchAllNews(false);
             const start = loadedCount[section];
@@ -304,10 +292,15 @@
                 document.querySelector(`#${section} .load-more`).innerHTML = '<p>No more articles.</p>';
             }
         }
-
-        // Init with timeout fallback
+        // Init with try/catch & timeout fallback
         function init() {
-            fetchAllNews(true);
+            try {
+                fetchAllNews(true);
+            } catch (error) {
+                console.error('Init error:', error);
+                allArticles = FALLBACK_ARTICLES;
+                displayContent();
+            }
         }
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', init);
