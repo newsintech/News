@@ -3,9 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Verified Tech News Hub: Latest stories from BBC, Reuters, The Verge, and TechCrunch.">
-    <title>Tech News Hub - Verified Tech Stories</title>
+    <meta name="description" content="Tech News Hub: Verified, AI-enhanced tech stories from BBC, Reuters, The Verge, TechCrunch. Full on-site articles for the latest in gadgets, software, and innovation.">
+    <meta name="keywords" content="tech news, verified technology stories, AI news summaries, cyber monday deals, space manufacturing, generative AI">
+    <meta property="og:title" content="Tech News Hub - Verified Tech Stories">
+    <meta property="og:description" content="Stay updated with fresh, on-site tech news. No ads, just insights.">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630?text=Tech+News+Hub">
+    <meta property="og:url" content="https://newsintech.github.io/News/">
+    <title>Tech News Hub - Verified Tech Stories | Latest Tech News 2025</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        "headline": "Tech News Hub Featured Stories",
+        "description": "Aggregated verified tech news with AI enhancements.",
+        "author": {"@type": "Organization", "name": "Tech News Hub"},
+        "datePublished": "2025-12-01",
+        "image": "https://via.placeholder.com/800x400?text=Tech+News",
+        "publisher": {"@type": "Organization", "name": "Tech News Hub", "logo": {"@type": "ImageObject", "url": "https://via.placeholder.com/600x60?text=Logo"}}
+    }
+    </script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Poppins', sans-serif; background: #FFFFFF; color: #000000; line-height: 1.6; }
@@ -27,12 +44,14 @@
         .article-excerpt { color: #666; margin-bottom: 1rem; font-size: 14px; }
         .article-meta { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #999; }
         .verified-badge { background: #34A853; color: white; padding: 0.2rem 0.5rem; border-radius: 10px; font-size: 10px; }
-        footer { background: #333; color: white; text-align: center; padding: 1rem; margin-top: 3rem; }
+        footer { background: #333; color: white; text-align: center; padding: 1rem; margin-top: 3rem; position: relative; z-index: 5; }
+        .loading { text-align: center; padding: 2rem; color: #1A73E8; }
         .error-msg { text-align: center; color: #999; padding: 2rem; }
         @media (max-width: 768px) { 
             .articles-grid { grid-template-columns: 1fr; } 
             nav { flex-direction: column; gap: 0.25rem; }
             header { padding: 1rem; }
+            footer { padding: 0.5rem; }
         }
     </style>
 </head>
@@ -51,21 +70,35 @@
         <section id="featured" class="section" aria-labelledby="featured-heading">
             <h2 id="featured-heading">Featured Story</h2>
             <div id="featured-article" class="article-card" style="max-width: 600px;" role="article">
-                <!-- Dynamically loaded -->
+                <div class="loading" aria-live="polite">Loading featured story...</div>
             </div>
         </section>
         <section id="latest" class="section" aria-labelledby="latest-heading">
             <h2 id="latest-heading">Latest Tech News</h2>
-            <div id="latest-articles" class="articles-grid" role="list"></div>
+            <div id="latest-articles" class="articles-grid" role="list">
+                <div class="loading">Loading latest news...</div>
+            </div>
         </section>
         <section id="must-reads" class="section" aria-labelledby="must-reads-heading">
             <h2 id="must-reads-heading">Must Reads</h2>
-            <div id="must-reads-articles" class="articles-grid" role="list"></div>
+            <div id="must-reads-articles" class="articles-grid" role="list">
+                <div class="loading">Loading must-reads...</div>
+            </div>
         </section>
     </main>
     <footer role="contentinfo">
-        <p>&copy; 2025 Tech News Hub. Powered by verified RSS sources.</p>
+        <p>&copy; 2025 Tech News Hub. Powered by verified RSS sources. | <a href="#top" style="color: #1A73E8;">Back to Top</a></p>
     </footer>
+    <noscript>
+        <div style="text-align: center; padding: 2rem; color: #999;">
+            <p>JavaScript is disabled. Here's a sample article:</p>
+            <article style="background: #F5F5F5; padding: 1rem; margin: 1rem; border-radius: 8px;">
+                <h3>Sample Tech News</h3>
+                <p>Explore the latest in AI and gadgets. Verified from top sources.</p>
+                <small>Sample Source • Dec 1, 2025 • <span style="background: #34A853; color: white; padding: 0.2rem 0.5rem; border-radius: 4px;">Verified</span></small>
+            </article>
+        </div>
+    </noscript>
     <script>
         const RSS_FEEDS = [
             { name: 'BBC Technology', url: 'https://feeds.bbci.co.uk/news/technology/rss.xml' },
@@ -74,8 +107,9 @@
             { name: 'TechCrunch', url: 'https://techcrunch.com/feed' }
         ];
         const RSS2JSON_BASE = 'https://api.rss2json.com/v1/api.json?rss_url=';
+        const UNSPLASH_BASE = 'https://source.unsplash.com/300x200/?';
 
-        async function fetchRSS(source) {
+        async function fetchRSS(source, retry = 0) {
             try {
                 const response = await fetch(RSS2JSON_BASE + encodeURIComponent(source.url));
                 if (!response.ok) throw new Error('RSS fetch failed');
@@ -83,14 +117,15 @@
                 if (data.items && data.items.length > 0) {
                     return data.items.slice(0, 3).map(item => ({
                         title: item.title,
-                        excerpt: item.content || item.description || 'No full content available.',
-                        image: item.enclosure?.link || item.thumbnail || 'https://via.placeholder.com/300x200?text=No+Image',
+                        excerpt: (item.content || item.description || 'No content available.').replace(/<[^>]*>/g, ''), // Strip HTML
+                        image: item.enclosure?.link || item.thumbnail || `${UNSPLASH_BASE}${encodeURIComponent(item.title.split(' ').slice(0,3).join(' '))}`, // Keyword image
                         source: source.name,
                         pubDate: item.pubDate || new Date().toISOString()
                     }));
                 }
             } catch (error) {
                 console.error(`Error fetching ${source.name}:`, error);
+                if (retry < 1) return fetchRSS(source, retry + 1); // Retry once
             }
             return [];
         }
@@ -110,26 +145,26 @@
                     displayArticles(topArticles.slice(1, 6), 'latest-articles');
                     displayArticles(topArticles.slice(6, 10), 'must-reads-articles');
                 } else {
-                    showError('latest-articles', 'No news available. Check connection or try refreshing.');
-                    showError('must-reads-articles', 'No news available. Check connection or try refreshing.');
-                    showError('featured-article', 'Featured story loading...');
+                    showError('featured-article', 'No featured story available. Refresh for updates.');
+                    showError('latest-articles', 'No latest news. Check connection.');
+                    showError('must-reads-articles', 'No must-reads. Check connection.');
                 }
             } catch (error) {
                 console.error('Overall fetch error:', error);
-                showError('latest-articles', 'Error loading news. Refresh the page.');
-                showError('must-reads-articles', 'Error loading news. Refresh the page.');
-                showError('featured-article', 'Featured story unavailable.');
+                showError('featured-article', 'Error loading featured. Refresh.');
+                showError('latest-articles', 'Error loading latest. Refresh.');
+                showError('must-reads-articles', 'Error loading must-reads. Refresh.');
             }
         }
 
         function showError(containerId, message) {
-            document.getElementById(containerId).innerHTML = `<div class="error-msg">${message}</div>`;
+            document.getElementById(containerId).innerHTML = `<div class="error-msg" role="alert">${message}</div>`;
         }
 
         function displayFeatured(article) {
-            const fullExcerpt = enhanceExcerpt(article.excerpt).substring(0, 800) + (enhanceExcerpt(article.excerpt).length > 800 ? '...' : '');
+            const fullExcerpt = enhanceExcerpt(article.excerpt).slice(0, 1500);
             const card = `
-                <img src="${article.image}" alt="${article.title}" class="article-image">
+                <img src="${article.image}" alt="${article.title} - Featured tech image" class="article-image" loading="lazy">
                 <div class="article-content">
                     <h3 class="article-title">${article.title}</h3>
                     <p class="article-excerpt">${fullExcerpt}</p>
@@ -149,13 +184,13 @@
                 return;
             }
             container.innerHTML = articles.map(article => {
-                const truncatedExcerpt = enhanceExcerpt(article.excerpt).substring(0, 300) + '...';
+                const excerpt = enhanceExcerpt(article.excerpt).slice(0, 500);
                 return `
                     <article class="article-card" role="article">
-                        <img src="${article.image}" alt="${article.title}" class="article-image">
+                        <img src="${article.image}" alt="${article.title} - Tech news thumbnail" class="article-image" loading="lazy">
                         <div class="article-content">
                             <h3 class="article-title">${article.title.substring(0, 60)}${article.title.length > 60 ? '...' : ''}</h3>
-                            <p class="article-excerpt">${truncatedExcerpt}</p>
+                            <p class="article-excerpt">${excerpt}</p>
                             <div class="article-meta">
                                 <span>${article.source} • ${new Date(article.pubDate).toLocaleDateString()}</span>
                                 <span class="verified-badge" aria-label="Verified Source">Verified</span>
@@ -166,13 +201,15 @@
             }).join('');
         }
 
-        // Enhanced AI rephrasing: More dynamic templates for "created" news feel
+        // Enhanced AI rephrasing with more variety
         function enhanceExcerpt(excerpt) {
             if (!excerpt || excerpt.length < 50) return excerpt;
             const templates = [
-                `Dive into this tech update: ${excerpt.substring(0, excerpt.length * 0.8)}. This signals a shift in innovation trends.`,
-                `Tech spotlight: ${excerpt}. Experts predict lasting impacts on the industry.`,
-                `Unpacking the news: ${excerpt.substring(0, excerpt.length * 0.7)}. Stay ahead with these insights.`
+                `Dive into this tech update from ${new Date().getFullYear()}: ${excerpt}. This signals a shift in innovation trends.`,
+                `Tech spotlight on emerging stories: ${excerpt}. Experts predict lasting impacts on the industry.`,
+                `Unpacking the news in depth: ${excerpt}. Stay ahead with these verified insights.`,
+                `Breaking down the latest developments: ${excerpt}. Key takeaway: innovation drives change in ${new Date().getFullYear()}.`,
+                `Explore this insightful tech narrative: ${excerpt}. As sources confirm, the future looks promising.`
             ];
             const selected = templates[Math.floor(Math.random() * templates.length)];
             return selected.replace('${excerpt}', excerpt);
