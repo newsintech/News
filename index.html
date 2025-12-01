@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Verified Tech News Hub: Latest stories from BBC, Reuters, The Verge, and TechCrunch.">
     <title>Tech News Hub - Verified Tech Stories</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -11,8 +12,8 @@
         header { background: #FFFFFF; padding: 1rem 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 10; }
         .logo { font-size: 28px; font-weight: 700; color: #1A73E8; }
         .tagline { font-size: 14px; color: #666; margin-top: 0.5rem; }
-        nav { display: flex; justify-content: center; margin: 1rem 0; flex-wrap: wrap; }
-        nav a { margin: 0 1rem; color: #1A73E8; text-decoration: none; font-weight: 600; padding: 0.5rem 1rem; border-radius: 20px; transition: background 0.3s; }
+        nav { display: flex; justify-content: center; margin: 1rem 0; flex-wrap: wrap; gap: 0.5rem; }
+        nav a { color: #1A73E8; text-decoration: none; font-weight: 600; padding: 0.5rem 1rem; border-radius: 20px; transition: background 0.3s; }
         nav a:hover { background: #F5F5F5; }
         main { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
         .section { margin-bottom: 3rem; }
@@ -20,44 +21,49 @@
         .articles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
         .article-card { background: #F5F5F5; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: transform 0.3s; }
         .article-card:hover { transform: translateY(-5px); }
-        .article-image { width: 100%; height: 200px; object-fit: cover; }
+        .article-image { width: 100%; height: 200px; object-fit: cover; loading: lazy; }
         .article-content { padding: 1.5rem; }
         .article-title { font-size: 20px; font-weight: 600; color: #000; margin-bottom: 0.5rem; }
         .article-excerpt { color: #666; margin-bottom: 1rem; font-size: 14px; }
         .article-meta { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #999; }
         .verified-badge { background: #34A853; color: white; padding: 0.2rem 0.5rem; border-radius: 10px; font-size: 10px; }
         footer { background: #333; color: white; text-align: center; padding: 1rem; margin-top: 3rem; }
-        @media (max-width: 768px) { .articles-grid { grid-template-columns: 1fr; } nav { flex-direction: column; } }
+        .error-msg { text-align: center; color: #999; padding: 2rem; }
+        @media (max-width: 768px) { 
+            .articles-grid { grid-template-columns: 1fr; } 
+            nav { flex-direction: column; gap: 0.25rem; }
+            header { padding: 1rem; }
+        }
     </style>
 </head>
 <body>
-    <header>
-        <div class="logo">Tech News Hub</div>
+    <header role="banner">
+        <div class="logo" aria-label="Tech News Hub Logo">Tech News Hub</div>
         <div class="tagline">Verified Tech Stories, Simplified</div>
-        <nav>
+        <nav role="navigation" aria-label="Main navigation">
             <a href="#latest">Latest</a>
             <a href="#must-reads">Must Reads</a>
             <a href="#gadgets">Gadgets</a>
             <a href="#software">Software</a>
         </nav>
     </header>
-    <main>
-        <section id="featured" class="section">
-            <h2>Featured Story</h2>
-            <div id="featured-article" class="article-card" style="max-width: 600px;">
+    <main role="main">
+        <section id="featured" class="section" aria-labelledby="featured-heading">
+            <h2 id="featured-heading">Featured Story</h2>
+            <div id="featured-article" class="article-card" style="max-width: 600px;" role="article">
                 <!-- Dynamically loaded -->
             </div>
         </section>
-        <section id="latest" class="section">
-            <h2>Latest Tech News</h2>
-            <div id="latest-articles" class="articles-grid"></div>
+        <section id="latest" class="section" aria-labelledby="latest-heading">
+            <h2 id="latest-heading">Latest Tech News</h2>
+            <div id="latest-articles" class="articles-grid" role="list"></div>
         </section>
-        <section id="must-reads" class="section">
-            <h2>Must Reads</h2>
-            <div id="must-reads-articles" class="articles-grid"></div>
+        <section id="must-reads" class="section" aria-labelledby="must-reads-heading">
+            <h2 id="must-reads-heading">Must Reads</h2>
+            <div id="must-reads-articles" class="articles-grid" role="list"></div>
         </section>
     </main>
-    <footer>
+    <footer role="contentinfo">
         <p>&copy; 2025 Tech News Hub. Powered by verified RSS sources.</p>
     </footer>
     <script>
@@ -72,15 +78,15 @@
         async function fetchRSS(source) {
             try {
                 const response = await fetch(RSS2JSON_BASE + encodeURIComponent(source.url));
+                if (!response.ok) throw new Error('RSS fetch failed');
                 const data = await response.json();
                 if (data.items && data.items.length > 0) {
-                    // Take top 2-3 per source for variety
                     return data.items.slice(0, 3).map(item => ({
                         title: item.title,
                         excerpt: item.content || item.description || 'No full content available.',
                         image: item.enclosure?.link || item.thumbnail || 'https://via.placeholder.com/300x200?text=No+Image',
                         source: source.name,
-                        pubDate: item.pubDate
+                        pubDate: item.pubDate || new Date().toISOString()
                     }));
                 }
             } catch (error) {
@@ -91,26 +97,37 @@
 
         async function fetchAllNews() {
             const allArticles = [];
-            // Fetch in parallel
             const promises = RSS_FEEDS.map(fetchRSS);
-            const results = await Promise.all(promises);
-            results.forEach(articles => allArticles.push(...articles));
-            
-            // Sort by pubDate (newest first), take top 10
-            allArticles.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-            const topArticles = allArticles.slice(0, 10);
+            try {
+                const results = await Promise.all(promises);
+                results.forEach(articles => allArticles.push(...articles));
+                
+                allArticles.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+                const topArticles = allArticles.slice(0, 10);
 
-            if (topArticles.length > 0) {
-                displayFeatured(topArticles[0]);
-                displayArticles(topArticles.slice(1, 6), 'latest-articles');
-                displayArticles(topArticles.slice(6, 10), 'must-reads-articles');
-            } else {
-                document.querySelector('#latest-articles').innerHTML = '<p>No news available. Check connection.</p>';
+                if (topArticles.length > 0) {
+                    displayFeatured(topArticles[0]);
+                    displayArticles(topArticles.slice(1, 6), 'latest-articles');
+                    displayArticles(topArticles.slice(6, 10), 'must-reads-articles');
+                } else {
+                    showError('latest-articles', 'No news available. Check connection or try refreshing.');
+                    showError('must-reads-articles', 'No news available. Check connection or try refreshing.');
+                    showError('featured-article', 'Featured story loading...');
+                }
+            } catch (error) {
+                console.error('Overall fetch error:', error);
+                showError('latest-articles', 'Error loading news. Refresh the page.');
+                showError('must-reads-articles', 'Error loading news. Refresh the page.');
+                showError('featured-article', 'Featured story unavailable.');
             }
         }
 
+        function showError(containerId, message) {
+            document.getElementById(containerId).innerHTML = `<div class="error-msg">${message}</div>`;
+        }
+
         function displayFeatured(article) {
-            const fullExcerpt = enhanceExcerpt(article.excerpt).substring(0, 800) + '...';
+            const fullExcerpt = enhanceExcerpt(article.excerpt).substring(0, 800) + (enhanceExcerpt(article.excerpt).length > 800 ? '...' : '');
             const card = `
                 <img src="${article.image}" alt="${article.title}" class="article-image">
                 <div class="article-content">
@@ -118,7 +135,7 @@
                     <p class="article-excerpt">${fullExcerpt}</p>
                     <div class="article-meta">
                         <span>${article.source} • ${new Date(article.pubDate).toLocaleDateString()}</span>
-                        <span class="verified-badge">Verified</span>
+                        <span class="verified-badge" aria-label="Verified Source">Verified</span>
                     </div>
                 </div>
             `;
@@ -127,34 +144,38 @@
 
         function displayArticles(articles, containerId) {
             const container = document.getElementById(containerId);
+            if (articles.length === 0) {
+                container.innerHTML = '<div class="error-msg">No articles available.</div>';
+                return;
+            }
             container.innerHTML = articles.map(article => {
                 const truncatedExcerpt = enhanceExcerpt(article.excerpt).substring(0, 300) + '...';
                 return `
-                    <div class="article-card">
+                    <article class="article-card" role="article">
                         <img src="${article.image}" alt="${article.title}" class="article-image">
                         <div class="article-content">
                             <h3 class="article-title">${article.title.substring(0, 60)}${article.title.length > 60 ? '...' : ''}</h3>
                             <p class="article-excerpt">${truncatedExcerpt}</p>
                             <div class="article-meta">
                                 <span>${article.source} • ${new Date(article.pubDate).toLocaleDateString()}</span>
-                                <span class="verified-badge">Verified</span>
+                                <span class="verified-badge" aria-label="Verified Source">Verified</span>
                             </div>
                         </div>
-                    </div>
+                    </article>
                 `;
             }).join('');
         }
 
-        // AI-like enhancement: Lightly rephrase for freshness (simple template-based)
+        // Enhanced AI rephrasing: More dynamic templates for "created" news feel
         function enhanceExcerpt(excerpt) {
             if (!excerpt || excerpt.length < 50) return excerpt;
             const templates = [
-                `In the world of tech, ${excerpt.substring(0, excerpt.length * 0.8)} This development highlights...`,
-                `Breaking down the latest: ${excerpt} Key takeaway: innovation drives change.`,
-                `Explore this tech insight: ${excerpt.substring(0, excerpt.length * 0.7)} As experts note...`
+                `Dive into this tech update: ${excerpt.substring(0, excerpt.length * 0.8)}. This signals a shift in innovation trends.`,
+                `Tech spotlight: ${excerpt}. Experts predict lasting impacts on the industry.`,
+                `Unpacking the news: ${excerpt.substring(0, excerpt.length * 0.7)}. Stay ahead with these insights.`
             ];
-            const randomTemplate = templates[Math.floor(Math.random() * templates.length)];
-            return randomTemplate.replace('${excerpt}', excerpt);
+            const selected = templates[Math.floor(Math.random() * templates.length)];
+            return selected.replace('${excerpt}', excerpt);
         }
 
         // Load on page ready
