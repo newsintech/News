@@ -119,7 +119,7 @@
             <a href="https://x.com">X</a>
             <a href="https://reddit.com">Reddit</a>
         </div>
-        <p>&copy; 2025 Tech News Hub. Powered by verified RSS sources.</p>
+        <p>&copy; 2025 Tech News Hub. Powered by NewsData.io & GNews.io.</p>
     </footer>
     <noscript>
         <div style="text-align: center; padding: 2rem; color: #999;">
@@ -133,16 +133,11 @@
     </noscript>
     <script>
         let allArticles = []; let loadedCount = { latest: 5, 'must-reads': 3 };
-        const RSS_FEEDS = [
-            { name: 'BBC Technology', url: 'https://feeds.bbci.co.uk/news/technology/rss.xml' },
-            { name: 'Reuters Technology', url: 'http://feeds.reuters.com/reuters/technologyNews' },
-            { name: 'The Verge', url: 'https://www.theverge.com/rss/index.xml' },
-            { name: 'TechCrunch', url: 'https://techcrunch.com/feed' }
-        ];
-        const PROXY_BASE = 'https://api.allorigins.win/raw?url=';
+        const NEWS_DATA_KEY = 'YOUR_NEWS_DATA_IO_API_KEY_HERE'; // Paste from dashboard
+        const GNEWS_TOKEN = 'YOUR_GNEWS_IO_TOKEN_HERE'; // Paste from dashboard
         const UNSPLASH_BASE = 'https://source.unsplash.com/300x200/?';
 
-        // Static fallback articles (loads if RSS fails)
+        // Fallback articles (loads if APIs fail)
         const FALLBACK_ARTICLES = [
             { title: 'Cyber Monday Tech Deals Under $100', excerpt: 'Discover budget-friendly gadgets like Pixel Buds and Anker headphones. Innovation on sale.', image: `${UNSPLASH_BASE}deals`, source: 'The Verge', pubDate: '2025-12-01T10:00:00Z', tags: ['Deals', 'Gadgets'] },
             { title: 'Space Manufacturing Breakthrough by Varda', excerpt: 'Proven orbital production paves way for future industries.', image: `${UNSPLASH_BASE}space`, source: 'TechCrunch', pubDate: '2025-12-01T09:00:00Z', tags: ['Space', 'Tech'] },
@@ -154,67 +149,69 @@
             { title: 'Trump Policy Impacts on Tech Profits', excerpt: 'Report on potential gains for key figures.', image: `${UNSPLASH_BASE}policy`, source: 'TechCrunch', pubDate: '2025-11-30T16:00:00Z', tags: ['Policy', 'Tech'] }
         ];
 
-        async function fetchRSS(source, retry = 0) {
+        async function fetchNewsData() {
             try {
-                const proxiedUrl = PROXY_BASE + encodeURIComponent(source.url);
-                const response = await fetch(proxiedUrl);
-                if (!response.ok) throw new Error('RSS fetch failed');
-                const text = await response.text();
-                // Parse XML manually (simple for RSS)
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(text, 'text/xml');
-                const items = xmlDoc.querySelectorAll('item');
-                const articles = Array.from(items).slice(0, 5).map(item => {
-                    const title = item.querySelector('title')?.textContent || 'Untitled';
-                    let excerpt = item.querySelector('description')?.textContent || item.querySelector('content\\:encoded')?.textContent || 'No content.';
-                    excerpt = excerpt.replace(/<[^>]*>/g, '').replace(/\*\s*/g, '').replace(/-\s*/g, '').replace(/\n/g, ' ').trim();
-                    return {
-                        title,
-                        excerpt,
-                        image: `${UNSPLASH_BASE}${encodeURIComponent(title.split(' ').slice(0,3).join(' '))}`,
-                        source: source.name,
-                        pubDate: item.querySelector('pubDate')?.textContent || new Date().toISOString(),
-                        tags: generateTags(title)
-                    };
-                });
-                return articles;
+                const url = `https://newsdata.io/api/1/news?apikey=${NEWS_DATA_KEY}&category=technology&language=en&size=20`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('NewsData fetch failed');
+                const data = await response.json();
+                if (data.results && data.results.length > 0) {
+                    return data.results.map(article => ({
+                        title: article.title,
+                        excerpt: article.description || 'No description available.',
+                        image: article.image_url || `${UNSPLASH_BASE}${encodeURIComponent(article.title.split(' ').slice(0,3).join(' '))}`,
+                        source: article.source_id || 'NewsData',
+                        pubDate: article.pubDate,
+                        tags: generateTags(article.title)
+                    }));
+                }
             } catch (error) {
-                console.error(`Error fetching ${source.name}:`, error);
-                if (retry < 2) return fetchRSS(source, retry + 1);
+                console.error('NewsData error:', error);
+            }
+            return [];
+        }
+
+        async function fetchGNews() {
+            try {
+                const url = `https://gnews.io/api/v4/search?q=technology&token=${GNEWS_TOKEN}&lang=en&max=20`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('GNews fetch failed');
+                const data = await response.json();
+                if (data.articles && data.articles.length > 0) {
+                    return data.articles.map(article => ({
+                        title: article.title,
+                        excerpt: article.description || 'No description available.',
+                        image: article.image || `${UNSPLASH_BASE}${encodeURIComponent(article.title.split(' ').slice(0,3).join(' '))}`,
+                        source: article.source.name,
+                        pubDate: article.publishedAt,
+                        tags: generateTags(article.title)
+                    }));
+                }
+            } catch (error) {
+                console.error('GNews error:', error);
             }
             return [];
         }
 
         async function fetchAllNews(initial = true) {
             if (allArticles.length > 0 && !initial) return allArticles;
-            const allNewArticles = [];
-            const promises = RSS_FEEDS.map(fetchRSS);
-            try {
-                const results = await Promise.all(promises);
-                results.forEach(articles => allNewArticles.push(...articles));
-                allArticles = allNewArticles.length > 0 ? allNewArticles.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate)) : FALLBACK_ARTICLES;
-                console.log(`Fetched ${allArticles.length} articles`);
-                if (initial) {
-                    if (allArticles.length > 0) {
-                        displayFeatured(allArticles[0]);
-                        displayArticles(allArticles.slice(1, 6), 'latest-articles');
-                        displayArticles(allArticles.slice(6, 10), 'must-reads-articles');
-                    } else {
-                        showError('featured-article', 'No featured story. Refresh.');
-                        showError('latest-articles', 'No latest news.');
-                        showError('must-reads-articles', 'No must-reads.');
-                    }
-                }
-                return allArticles;
-            } catch (error) {
-                console.error('Fetch error:', error);
-                allArticles = FALLBACK_ARTICLES; // Fallback on error
-                if (initial) {
-                    displayFeatured(allArticles[0]);
-                    displayArticles(allArticles.slice(1, 6), 'latest-articles');
-                    displayArticles(allArticles.slice(6, 10), 'must-reads-articles');
-                }
-                return allArticles;
+            let articles = await fetchNewsData();
+            if (articles.length === 0) articles = await fetchGNews();
+            allArticles = articles.length > 0 ? articles.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate)) : FALLBACK_ARTICLES;
+            console.log(`Fetched ${allArticles.length} articles from APIs`);
+            if (initial) displayContent();
+            return allArticles;
+        }
+
+        function displayContent() {
+            if (allArticles.length > 0) {
+                displayFeatured(allArticles[0]);
+                displayArticles(allArticles.slice(1, 6), 'latest-articles');
+                displayArticles(allArticles.slice(6, 10), 'must-reads-articles');
+            } else {
+                showError('featured-article', 'No featured story. Refresh.');
+                showError('latest-articles', 'No latest news.');
+                showError('must-reads-articles', 'No must-reads.');
             }
         }
 
@@ -297,11 +294,24 @@
             }
         }
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => fetchAllNews(true));
-        } else {
+        // Init with timeout fallback
+        function init() {
             fetchAllNews(true);
         }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (document.querySelectorAll('.loading').length > 0) {
+                    console.log('Timeout fallback triggered');
+                    allArticles = FALLBACK_ARTICLES;
+                    displayContent();
+                }
+            }, 5000);
+        });
     </script>
 </body>
 </html>
